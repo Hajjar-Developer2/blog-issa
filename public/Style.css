@@ -1,0 +1,138 @@
+body{
+    background-color:lightgray;
+}
+.LogInPanel{
+    background-color: white;
+    border-radius: 12px;
+    margin:100px 0;
+    padding: 40px 70px;
+    box-shadow: 1px 0 20px 12px rgba(0,0,0,.075);
+}
+.ErrorSign{
+    z-index: 5;
+    position: absolute;
+    top: 50px;
+}
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+.wrapper {
+    display: flex;
+    align-items: stretch;
+  }
+  
+  #sidebar {
+    min-width: 230px;
+    max-width: 230px;
+    background: #0e1f2d;
+    color: #fff;
+    transition: all 0.3s;
+  
+  }
+  
+  #sidebar.active {
+    margin-left: -250px;
+  }
+  
+  #sidebar .sidebar-header {
+    padding: 10px;
+    background: #0e1f2d;
+  }
+  
+  #sidebar ul.components {
+    padding: 20px 0;
+    
+  }
+  
+  #sidebar ul p {
+    color: #fff;
+    padding: 10px;
+  }
+  
+  #sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+    color: rgb(190, 190, 190);
+    text-decoration: none;
+    font-weight: 600;
+   
+  }
+  #sidebar ul li a:hover {
+    color:white;
+    background:#0e2335;
+    
+  }
+  
+  
+  #sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: white;
+    background: #0e2335;
+  
+  }
+  
+  
+  #sidebar ul li a[data-toggle="collapse"] {
+    position: relative;
+  }
+  
+  
+  
+  #sidebar ul li a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content: '\e259';
+    display: block;
+    position: absolute;
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+    right: 30px;
+  }
+  #sidebar ul li a[aria-expanded="true"]::before {
+    content: '\e260';
+  }
+
+  #Content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    margin:15px;
+    background-color: white;
+    border-radius: 6px;
+    }
+
+
+
+    .navbar{
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+    }
+    
+    /* ---------------------------------------------------
+    MEDIAQUERIES
+    ----------------------------------------------------- */
+    
+    @media (max-width: 768px) {
+    #sidebar {
+    margin-left: -250px;
+    }
+    #sidebar.active {
+    margin-left: 0;
+    }
+    #sidebarCollapse span {
+    display: none;
+    }
+    }
+
+
+
+  .Dashboard{
+
+    background-color: white;
+    margin: 25px 12px 25px 12px;
+    padding:20px;
+    border-radius: 4px;
+    min-height: 93vh;
+    position: relative;
+    
+    }
