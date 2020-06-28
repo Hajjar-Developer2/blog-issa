@@ -79,6 +79,8 @@ Route::group(['prefix'=>'Provider'], function () {
 
       Route::post('getCatProAjax',['uses'=>'ProviderController@getCatProAjax','as'=>'getCatProAjax']);
 
+      Route::get('ServiceList',['uses'=>'ProviderController@ServiceListGet','ServiceListGet']);
+
       Route::post('SaveService',['uses'=>'ProviderController@SaveService','as'=>'SaveService']);
         
     });

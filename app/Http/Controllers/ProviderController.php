@@ -68,6 +68,18 @@ class ProviderController extends Controller
         
     }
 
+    public function ServiceListGet()
+    {
+        //get Services
+        $getServices=MayarService::all();
+        $getServices->load('Category');
+        $getServices->load('ServiceProvider');
+        $getServices->load('Upgrades');
+        $getServices->load('Comments.Customer');
+
+        return $getServices;
+    }
+
 
     public function SaveService(Request $request)
     {

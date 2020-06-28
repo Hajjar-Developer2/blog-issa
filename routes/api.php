@@ -14,6 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('CustRegister',['uses'=>'ApiController@CustRegister']);
+
+Route::post('CustLogIn',['uses'=>"ApiController@CustLogIn"]);
+
+Route::group(['middleware' => ['jwt.auth', 'auth:api']], function () {
+    
+    Route::post('CustInfo',['uses'=>'ApiController@CustInfo']);
+
+    Route::post('CustEdit',['uses'=>'ApiController@CustEdit']);
+
+    Route::post('CustLogOut',['uses'=>'ApiController@CustLogOut']);
+
+    Route::post('SaveOrder',['uses'=>'ApiController@SaveOrder']);
+
 });

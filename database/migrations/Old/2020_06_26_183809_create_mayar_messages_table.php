@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMayarOrdersTable extends Migration
+class CreateMayarMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateMayarOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('mayar_orders', function (Blueprint $table) {
+        Schema::create('mayar_messages', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->String("OrderServiceId");
-            $table->String("OrderUpgradesId");
-            $table->String("OrderCustomerId");
-            $table->String("OrderStatus");
-            $table->String('OrderPrice');
+            $table->String('MessageTarget');
+            $table->String('MessageSource');
+            $table->String('MessageValue');
+            $table->String('MessageStatus');
+            $table->String('MessageOrderId');
         });
     }
 
@@ -31,6 +31,6 @@ class CreateMayarOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mayar_orders');
+        Schema::dropIfExists('mayar_messages');
     }
 }

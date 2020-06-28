@@ -46,9 +46,8 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
+            'driver' => 'jwt',
+            'provider' => 'Customers',
         ],
     ],
 
@@ -77,6 +76,10 @@ return [
         'ServiceProvider'=> [
             'driver' => 'eloquent',
             'model' => App\MayarProvider::class
+        ],
+        'Customers'=>[
+            'driver'=>'eloquent',
+            'model'=>App\MayarCustomer::class
         ]
 
         // 'users' => [
