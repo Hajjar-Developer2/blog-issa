@@ -171,8 +171,14 @@ class ProviderController extends Controller
           else{
               $UpgradesPrice='';
           }
-          $ServicePrice=$transformUpgrades[0]['Service']['ServicePrice'];
-          $totalPrice=$ServicePrice+$UpgradesPrice;
+          if(!empty($transformUpgrades[0])){
+            $ServicePrice=$transformUpgrades[0]['Service']['ServicePrice'];
+            $totalPrice=$ServicePrice+$UpgradesPrice;
+          }
+          else{
+              $totalPrice=0;
+          }
+
 
 
         return view('Providers.OrdersList',['Orders'=>$transformUpgrades,'totalPrice'=>$totalPrice]);

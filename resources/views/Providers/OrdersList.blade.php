@@ -7,6 +7,9 @@
 @include('includes.ProvidersSideNav')
 <div id='Content'>
     <div class="panel-group" id="accordion">
+        @if (!empty($Orders))
+            
+        @endif
         @foreach ($Orders as $Order)
          <div class="panel panel-default">
             <div class="panel-heading">
