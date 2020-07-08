@@ -33,7 +33,7 @@ class MayarCustomer extends Authenticatable implements JWTSubject
     }
 
 
-    protected $fillable=['CustFirstName','CustLastName','CustUserName','CustPass','CustMail','CustStatus','CustCountry','CustActivationToken','CustAddress'];
+    protected $fillable=['CustFirstName','CustLastName','CustUserName','CustPass','CustMail','CustStatus','CustCountry','CustActivationToken','CustAddress','CustPassRestToken','CustPassRestExpire'];
 
     protected $hidden=['CustPass'];
 

@@ -14,7 +14,14 @@
                <li><a href="#" class="AddService" data-toggle="modal" data-target="#AddService">Add Service</a></li> 
               </ul>
           </li>
+          <li >
+            <a href="#OrdersSub" data-toggle="collapse" aria-expanded="false">Orders</a>
+                <ul class="collapse list-unstyled" id="OrdersSub">
+                 <li><a href="{{route('OrderListGet')}}">Orders List</a></li>
+                </ul>
+            </li>
       </ul>
     </nav>
+  
   
 @include('includes.ProvidresModals')

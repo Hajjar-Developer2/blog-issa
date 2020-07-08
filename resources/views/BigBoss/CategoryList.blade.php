@@ -2,7 +2,7 @@
 
 
 @section('Content')
-@include('includes.Navbar')
+@include('includes.BigBossNavbar')
 @include('includes.error')
 @include('includes.BigBossSideNav')
 <div id='Content'>

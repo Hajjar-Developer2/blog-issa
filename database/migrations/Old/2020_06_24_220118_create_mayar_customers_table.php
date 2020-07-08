@@ -22,7 +22,7 @@ class CreateMayarCustomersTable extends Migration
             $table->String("CustUserName");
             $table->String("CustPass");
             $table->String("CustCountry");
-            $table->String("CustAddress");
+            $table->String("CustAddress")->nullable();
             $table->String("CustStatus");
             $table->String("CustActivationToken");
 

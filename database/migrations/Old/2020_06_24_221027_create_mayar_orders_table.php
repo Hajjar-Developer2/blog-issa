@@ -21,6 +21,8 @@ class CreateMayarOrdersTable extends Migration
             $table->String("OrderCustomerId");
             $table->String("OrderStatus");
             $table->String('OrderPrice');
+            $table->String('OrderTargetId');
+            $table->String('OrderFolder')->nullable();
         });
     }
 

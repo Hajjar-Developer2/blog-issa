@@ -1,6 +1,80 @@
 
 <Script>
     
+//Toast Start
+
+
+toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": true,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "8000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+
+var Timer=4000;
+
+setTimeout(() => {
+
+  // toastr["info"]("Message", "Hello")
+
+$.ajax({
+  method:"post",
+  data:{  _token:"{{csrf_token()}}"  },
+  url:"{{ route('getMessages') }}",
+  success:function(data){
+        data.forEach(Message => {
+          toastr["info"](Message['MessageValue'], "Hello")
+        });
+    console.log(data)
+  }
+})
+  
+
+}, Timer);
+
+
+
+//Toast End
+
+
+
+
+
+
+
+
+
+
+
+//Change All Notificateion Status  When Click On Dropdown 
+
+$(document).on('click','.NotifDrop',function(){
+
+  //get Target Type
+  var Type=$(this).data('type');
+
+  $.ajax({
+  method:'post',
+  url:"{{ route('ChangeNotifPost') }}",
+  data:{Type:Type,_token:"{{ csrf_token() }}"}})
+
+})
+
+//End Change All Notificateion Status  When Click On Dropdown 
+
+
+
  //get Categories And Providers for AddService Form
 
 $(document).on('click',".AddService",function(){

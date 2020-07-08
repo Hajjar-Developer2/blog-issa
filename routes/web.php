@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\CustActivateMail;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +18,10 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+
+   return 'its Working';
+
 });
 
 Route::post('/',function(Request $request){
@@ -27,6 +33,9 @@ Route::post('/',function(Request $request){
     return "Somthing Worng";
 });
 
+Route::post('ChangeNotif',['uses'=>'Controller@ChangeNotif','as'=>'ChangeNotifPost']);
+
+Route::post('getMessages',['uses'=>"Controller@getMessages",'as'=>'getMessages']);
 
 Route::group(['prefix'=>'BigBoss'], function () {
 
@@ -82,6 +91,10 @@ Route::group(['prefix'=>'Provider'], function () {
       Route::get('ServiceList',['uses'=>'ProviderController@ServiceListGet','ServiceListGet']);
 
       Route::post('SaveService',['uses'=>'ProviderController@SaveService','as'=>'SaveService']);
+
+      Route::get('OrdersList',['uses'=>'ProviderController@OrderListGet','as'=>'OrderListGet']);
+
+      Route::get('LogOut',['uses'=>'ProviderController@ProviderLogOut','as'=>'ProviderLogOut']);
         
     });
 

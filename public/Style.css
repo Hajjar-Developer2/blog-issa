@@ -65,10 +65,15 @@ body{
   }
   
   
-  #sidebar ul li.active > a, a[aria-expanded="true"] {
+  #sidebar ul li.active > a {
     color: white;
     background: #0e2335;
   
+  }
+
+  #sidebar ul li  a[aria-expanded="true"] {
+    color: white;
+    background: #0e2335;
   }
   
   
@@ -78,7 +83,7 @@ body{
   
   
   
-  #sidebar ul li a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+  #sidebar ul li a[aria-expanded="false"]::before {
     content: '\e259';
     display: block;
     position: absolute;
@@ -88,6 +93,11 @@ body{
   }
   #sidebar ul li a[aria-expanded="true"]::before {
     content: '\e260';
+    display: block;
+    position: absolute;
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+    right: 30px;
   }
 
   #Content {
@@ -135,4 +145,22 @@ body{
     min-height: 93vh;
     position: relative;
     
+    }
+
+    .OrderFileList{
+      list-style:none;
+      padding: 20px 20px 50px 20px;
+    }
+
+    .OrderFileList li {
+      float:left;
+   
+    }
+
+    .OrderFileList li img {
+      width: 90px;
+    }
+
+    .OrderFileList li h4 {
+      text-align: center;
     }

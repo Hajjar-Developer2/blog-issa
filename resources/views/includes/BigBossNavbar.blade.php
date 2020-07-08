@@ -10,7 +10,14 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav navbar-right">
-         
+            <li class="dropdown">
+              <a class="dropdown-toggle NotifDrop" data-toggle="dropdown" data-type='BigBoss' href="#">BigNotif</a>
+              <ul class="dropdown-menu">
+                @foreach ($BigBossNotifs as $BNotif)
+                <li><a href="#">{{$BNotif['NotifValue']}}</a></li>
+                @endforeach
+              </ul>
+            </li>
           <li><a href="{{ route('LogOut') }}"><span class="glyphicon glyphicon-off"></span></a></li>
         </ul>
       </div>

@@ -8,6 +8,7 @@ use Auth;
 use App\MayarCategory;
 use App\MayarService;
 use App\MayarProvider;
+use App\MayarOrder;
 
 class ProviderController extends Controller
 {
@@ -48,6 +49,13 @@ class ProviderController extends Controller
             else{
                 return redirect()->route('ProviderLoginGet')->with('err',['err'=>'1','Username Or Password Is Wrong']);
             }
+    }
+
+    public function ProviderLogOut()
+    {
+        Auth::guard('ServiceProvider')->logOut();
+
+        return redirect('/');
     }
 
     public function ProviderDashboard()
@@ -130,5 +138,44 @@ class ProviderController extends Controller
         }
 
         return redirect()->route('ProviderDashboard')->with('err',['err'=>'1','message'=>'Service Succesfully Saved']);
+    }
+
+
+    public function OrderListGet()
+    {
+        //get Provider 
+        $getProvider=Auth::guard('ServiceProvider')->user();
+
+
+        //get Orders 
+        $getOrders=MayarOrder::where('OrderTargetId',$getProvider['id'])->get();
+        $getOrders->load('Customer');
+        $getOrders->load('Service');
+        $getOrders->load('Files');
+
+        //Transform Service Upgrades
+        $transformUpgrades= $getOrders->transform(function($Upgrade){ 
+            $Upgrade->OrderUpgradesId=unserialize($Upgrade->OrderUpgradesId);
+            return $Upgrade;
+          });
+
+
+          //get Total Price
+          $PriceArr=array();
+          if(!empty($transformUpgrades[0]['OrderUpgradesId'])){
+            foreach ($transformUpgrades[0]['OrderUpgradesId'] as $Upgrades ) {
+                array_push($PriceArr,$Upgrades['UpgradePrice']); 
+              }
+              $UpgradesPrice=array_sum($PriceArr);
+          }
+          else{
+              $UpgradesPrice='';
+          }
+          $ServicePrice=$transformUpgrades[0]['Service']['ServicePrice'];
+          $totalPrice=$ServicePrice+$UpgradesPrice;
+
+
+        return view('Providers.OrdersList',['Orders'=>$transformUpgrades,'totalPrice'=>$totalPrice]);
+
     }
 }

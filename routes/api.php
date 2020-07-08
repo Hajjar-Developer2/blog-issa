@@ -20,16 +20,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('CustRegister',['uses'=>'ApiController@CustRegister']);
 
+Route::post('CustActivate',['uses'=>'ApiController@CustActivate']);
+
+Route::post('CustPassRestReq',['uses'=>'ApiController@CustPassRestReq']);
+
+Route::post('CustPassRestExec',['uses'=>'ApiController@CustRestPassExec']);
+
 Route::post('CustLogIn',['uses'=>"ApiController@CustLogIn"]);
 
 Route::group(['middleware' => ['jwt.auth', 'auth:api']], function () {
     
-    Route::post('CustInfo',['uses'=>'ApiController@CustInfo']);
+    Route::get('CustInfo',['uses'=>'ApiController@CustInfo']);
 
     Route::post('CustEdit',['uses'=>'ApiController@CustEdit']);
 
     Route::post('CustLogOut',['uses'=>'ApiController@CustLogOut']);
 
     Route::post('SaveOrder',['uses'=>'ApiController@SaveOrder']);
+
+    Route::post('UploadFile',['uses'=>"ApiController@UploadFile"]);
+
+    Route::post('SaveMessage',['uses'=>'ApiController@SaveMessage']);
 
 });

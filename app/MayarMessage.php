@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class MayarMessage extends Model
 {
     // 	 	
-    protected $fillable=['MessageTarget','MessageSource','MessageValue','MessageStatus','MessageOrderId'];
+    protected $fillable=['MessageTarget','MessageTargetType','MessageSource','MessageSourceType','MessageValue','MessageStatus','MessageOrderId'];
 }

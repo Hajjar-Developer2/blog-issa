@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'default' => env('FILESYSTEM_DRIVER', 'google'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'cloud' => env('FILESYSTEM_CLOUD', 's3'),
+    'cloud' => env('FILESYSTEM_CLOUD', 'google'),
 
     /*
     |--------------------------------------------------------------------------
@@ -64,6 +64,16 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
+
+        'google' => [
+            'driver' => 'google',
+            'clientId' => env('GOOGLE_DRIVE_CLIENT_ID','909577878157-nemfdufdq8bv68r4gfdnbe1jrgkbm9en.apps.googleusercontent.com'), //909577878157-nemfdufdq8bv68r4gfdnbe1jrgkbm9en.apps.googleusercontent.com
+            'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET','aFv5ahYQsL9y2Y0FPTW1Zbti'), //aFv5ahYQsL9y2Y0FPTW1Zbti
+            'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN','1//04ntWr-p77lVJCgYIARAAGAQSNwF-L9IrbdbJVN_LBTPH0gJr3Eaw47PURGH0rjOAEAVWHY0EyLPXtBpspuOL1Kq7NQurTjsPseE'), //1//04ntWr-p77lVJCgYIARAAGAQSNwF-L9IrbdbJVN_LBTPH0gJr3Eaw47PURGH0rjOAEAVWHY0EyLPXtBpspuOL1Kq7NQurTjsPseE
+            'folderId' => env('GOOGLE_DRIVE_FOLDER_ID','1_8XuOgF9HIeYjunKlI38y3e2IxDHA-Ry'), //1_8XuOgF9HIeYjunKlI38y3e2IxDHA-Ry
+            // 'teamDriveId' => env('GOOGLE_DRIVE_TEAM_DRIVE_ID'),
+        ],
+    
 
     ],
 

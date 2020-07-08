@@ -17,7 +17,9 @@ class CreateMayarMessagesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->String('MessageTarget');
+            $table->String('MessageTargetType');
             $table->String('MessageSource');
+            $table->String('MessageSourceType');
             $table->String('MessageValue');
             $table->String('MessageStatus');
             $table->String('MessageOrderId');
