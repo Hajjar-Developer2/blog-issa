@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\File;
 
 use App\Mail\CustActivateMail;
 
@@ -17,21 +18,24 @@ use App\Mail\CustActivateMail;
 |
 */
 
-Route::get('/', function () {
 
 
-   return 'its Working';
+Route::get('/',function(){
+
+  return "Its Working";
 
 });
 
-Route::post('/',function(Request $request){
-    if ($request->input('User') === env('BIGBOSSU') && $request->input('Pass') === env('BIGBOSSP')) {
-        $request->session()->put('authenticated', time());
-        return redirect('/test');
-    }
 
-    return "Somthing Worng";
-});
+
+// Route::post('/',function(Request $request){
+//     if ($request->input('User') === env('BIGBOSSU') && $request->input('Pass') === env('BIGBOSSP')) {
+//         $request->session()->put('authenticated', time());
+//         return redirect('/test');
+//     }
+
+//     return "Somthing Worng";
+// });
 
 Route::post('ChangeNotif',['uses'=>'Controller@ChangeNotif','as'=>'ChangeNotifPost']);
 

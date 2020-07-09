@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,7 @@ Route::post('CustPassRestReq',['uses'=>'ApiController@CustPassRestReq']);
 
 Route::post('CustPassRestExec',['uses'=>'ApiController@CustRestPassExec']);
 
-Route::post('CustLogIn',['uses'=>"ApiController@CustLogIn"]);
+Route::post('/CustLogIn',['uses'=>"ApiController@CustLogIn"]);
 
 Route::group(['middleware' => ['jwt.auth', 'auth:api']], function () {
     
