@@ -24,7 +24,7 @@ Route::get('/',function(){
 
   return "Its Working";
 
-});
+})->name('main');
 
 
 

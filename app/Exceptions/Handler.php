@@ -51,17 +51,22 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
 
+        if($request->is('api/*')){
+
+        
+
         if (
               $request->is('api/CustRegister')
             ||$request->is('api/CustActivate')
             ||$request->is('api/CustPassRestReq')
             ||$request->is('api/CustPassRestExec')
             ||$request->is('api/CustLogIn')
+            &&  $request->expectsJson()
          ){
            //Do Nothing
          } 
          
-         elseif( $request->expectsJson()){
+         else{
             if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
               
                 return response()->json(['err'=>['err'=>'1','message' => 'TokenInvalidErr']],401);
@@ -77,6 +82,7 @@ class Handler extends ExceptionHandler
 
 
         }
-        return parent::render($request, $exception);
+      }
+      return parent::render($request, $exception);
     }
 }
