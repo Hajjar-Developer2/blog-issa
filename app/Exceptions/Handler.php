@@ -57,13 +57,11 @@ class Handler extends ExceptionHandler
             ||$request->is('api/CustPassRestReq')
             ||$request->is('api/CustPassRestExec')
             ||$request->is('api/CustLogIn')
-
-            && $request->expectsJson()
          ){
            //Do Nothing
          } 
          
-         else{
+         elseif( $request->expectsJson()){
             if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
               
                 return response()->json(['err'=>['err'=>'1','message' => 'TokenInvalidErr']],401);
