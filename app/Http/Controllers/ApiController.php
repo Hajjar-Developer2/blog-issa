@@ -113,7 +113,7 @@ class ApiController extends Controller
                 'password'=>$request->input('CustPassI')
                 ))) {
     
-            return response()->json(['err'=>['err'=>'1','message' => 'UnauthorizedErr']], 401);
+            return response()->json(['err',['err'=>'1','message' => 'UnauthorizedErr']], 401);
     
             }    
 
@@ -131,7 +131,7 @@ class ApiController extends Controller
                 ))) {
 
 
-            return response()->json(['err' =>['err'=>'1','message'=>'UnauthorizedErr']], 401);
+            return response()->json(['err',['err'=>'1','message'=>'UnauthorizedErr']], 401);
     
             }    
 
