@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'BigBossAuth'=> \App\Http\Middleware\BigBossAuth::class,
         'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
         'jwt.refresh' => \Tymon\JWTAuth\Http\Middleware\RefreshToken::class,
+        'jwt.check' => \App\Http\Middleware\JWTMiddleware::class,
     ];
 }

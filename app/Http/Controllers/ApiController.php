@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 use App\Mail\CustActivateMail;
 use App\Mail\CustRestPassMail;
@@ -112,10 +113,14 @@ class ApiController extends Controller
                 'password'=>$request->input('CustPassI')
                 ))) {
     
-            return response()->json(['error' => 'UnauthorizedErr'], 401);
+            return response()->json(['err'=>['err'=>'1','message' => 'UnauthorizedErr']], 401);
     
             }    
-            return response()->json(['token' => $token,'expires' => auth('api')->factory()->getTTL() * 60,]);
+
+            //get Customer
+            $getCust=Auth::guard('api')->user();
+            
+            return response()->json([ 'err'=>'0','Customer'=>$getCust,'token' => $token,'expires' => auth('api')->factory()->getTTL() * 60,]);
          }
          //LogIn With UserName
          else{
@@ -124,11 +129,17 @@ class ApiController extends Controller
                 'CustUserName'=>$request->input('CustUserNameI'),
                 'password'=>$request->input('CustPassI')
                 ))) {
-    
+
+
             return response()->json(['error' => 'UnauthorizedErr'], 401);
     
             }    
-            return response()->json(['token' => $token,'expires' => auth('api')->factory()->getTTL() * 60,],200);
+
+            //get Customer
+            $getCust=Auth::guard('api')->user();
+
+            return response()->json([ 'err'=>'0','Customer'=>$getCust,'token' => $token,'expires' => auth('api')->factory()->getTTL() * 60,]);
+
          }
         
 
@@ -200,7 +211,7 @@ class ApiController extends Controller
         //Check Customer
         $CheckCustomer=MayarCustomer::where([['id','=',$request->input('CustomerIdI')],['CustStatus','=','1']])->count();
         if($CheckCustomer ===0){
-            return response()->json(['err',['err'=>'0','message'=>'SWErr']], 403);
+            return response()->json(['err',['err'=>'0','message'=>'SWErr']], 500);
         }
 
         //Check Service
@@ -208,7 +219,7 @@ class ApiController extends Controller
         $CheckService->load('ServiceProvider');
         $CountService=$CheckService->count();
         if($CountService ===0){
-            return response()->json(['err',['err'=>'0','message'=>'SWErr']], 403);
+            return response()->json(['err',['err'=>'0','message'=>'SWErr']], 500);
         }
          
         // Check Service Upgrades
@@ -374,7 +385,7 @@ class ApiController extends Controller
    
         if(empty($getOrder)){
             
-            return response()->json(['err',['err'=>'1','message'=>'SWErr']], 403);
+            return response()->json(['err',['err'=>'1','message'=>'SWErr']], 500);
         }
 
         //Save Message 
@@ -415,7 +426,7 @@ class ApiController extends Controller
                     return response()->json(['err',['err'=>'1','message'=>'ActivatedCustSuccesErr']],200);
                 }
                 else{
-                    return response()->json(['err',['err'=>'0','message'=>'SWErr']],403);
+                    return response()->json(['err',['err'=>'0','message'=>'SWErr']],500);
                 }
     }
 
@@ -445,7 +456,7 @@ class ApiController extends Controller
             return response()->json(['err',['err'=>'1','message'=>'RestMsgSendSuccesErr']],200);
         }
         else{
-            return response()->json(['err',['err'=>'0','message'=>'SWErr']],403);
+            return response()->json(['err',['err'=>'0','message'=>'SWErr']],500);
         }
         
     }
@@ -480,7 +491,7 @@ class ApiController extends Controller
 
                 }
                 else{
-                    return response()->json(['err',['err'=>'0','message'=>'SWErr']],403);
+                    return response()->json(['err',['err'=>'0','message'=>'SWErr']],500);
                 }
         
         }

@@ -50,6 +50,33 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+
+        if (
+              $request->is('api/CustRegister')
+            ||$request->is('api/CustActivate')
+            ||$request->is('api/CustPassRestReq')
+            ||$request->is('api/CustPassRestExec')
+            ||$request->is('api/CustLogIn')
+         ){
+           //Do Nothing
+         } 
+         
+         else{
+            if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
+              
+                return response()->json(['err'=>['err'=>'1','message' => 'TokenInvalidErr']],401);
+            }
+            else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
+        
+                return response()->json(['err'=>['err'=>'1','message' => 'TokenExpiredErr']],401);
+            }
+            else{
+            
+                return response()->json(['err'=>['err'=>'1','message' => 'NotValidRouteErr']],500);
+            }
+
+
+        }
         return parent::render($request, $exception);
     }
 }

@@ -29,7 +29,7 @@ Route::post('CustPassRestExec',['uses'=>'ApiController@CustRestPassExec']);
 
 Route::post('/CustLogIn',['uses'=>"ApiController@CustLogIn"]);
 
-Route::group(['middleware' => ['jwt.auth', 'auth:api']], function () {
+Route::group(['middleware' => [ 'auth:api','jwt.auth']], function () {
     
     Route::get('CustInfo',['uses'=>'ApiController@CustInfo']);
 
