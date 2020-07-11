@@ -444,7 +444,12 @@ class ApiController extends Controller
         }
         
         //get Customer By Mail 
-        $getCustomer=MayarCustomer::where([['CustMail',$request->input('CustMailI')],['CustStatus','1']])->first();
+        $getCustomer=MayarCustomer::where([['CustMail',$request->input('CustMailI')]])->first();
+
+        if($getCustomer['CustStatus'] === 0){
+
+            return response()->json(['err',['err'=>'1','message'=>'AccountNotActivatedErr']],400);
+        }
 
         //Check Mail And Send Rest Mail Message To it
         if(!empty($getCustomer)){
