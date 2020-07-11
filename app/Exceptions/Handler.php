@@ -57,6 +57,8 @@ class Handler extends ExceptionHandler
             ||$request->is('api/CustPassRestReq')
             ||$request->is('api/CustPassRestExec')
             ||$request->is('api/CustLogIn')
+
+            && $request->expectsJson()
          ){
            //Do Nothing
          } 
