@@ -131,7 +131,7 @@ class ApiController extends Controller
                 ))) {
 
 
-            return response()->json(['err' =>'1','message'=>'UnauthorizedErr'], 401);
+            return response()->json(['err' =>['err'=>'1','message'=>'UnauthorizedErr']], 401);
     
             }    
 
