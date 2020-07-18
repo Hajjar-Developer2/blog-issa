@@ -6,7 +6,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Add Category Modal</h4>
+          <h4 class="modal-title">{{ trans('lang.AddCategoryModalTitle') }}</h4>
         </div>
         <div class="modal-body">
           <form method="post" action="{{ route('SaveCategory') }}" class="form-horizontal">
@@ -37,7 +37,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Delete Category Modal</h4>
+        <h4 class="modal-title">{{ trans('lang.DeleteCategoryModalTitle') }}</h4>
       </div>
       <div class="modal-body">
         <form method="post" action="{{ route('DelCategory') }}" class="form-horizontal">
@@ -71,7 +71,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Update Category Modal</h4>
+        <h4 class="modal-title">{{ trans('lang.UpdateCategoryModaltitle') }}</h4>
       </div>
       <div class="modal-body">
         <form method="post" action="{{ route('UpdateCategory') }}" class="form-horizontal">
@@ -103,7 +103,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Add Provider Modal</h4>
+          <h4 class="modal-title">{{ trans('lang.AddProviderModalTitle') }}</h4>
         </div>
         <div class="modal-body">
           <form method="post" action="{{ route('SaveProvider') }}" class="form-horizontal">
@@ -154,7 +154,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Update Provider Modal</h4>
+        <h4 class="modal-title">{{ trans('lang.UpdateProviderModalTitle') }}</h4>
       </div>
       <div class="modal-body">
         <form method="post" action="{{ route('UpdateProvider') }}" class="form-horizontal">
@@ -202,7 +202,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Delete Provider Modal</h4>
+        <h4 class="modal-title">{{ trans('lang.DeleteProviderModalTitle') }}</h4>
       </div>
       <div class="modal-body">
         <form method="post" action="{{ route('DelProvider') }}" class="form-horizontal">

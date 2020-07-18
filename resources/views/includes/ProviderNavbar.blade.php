@@ -9,7 +9,11 @@
         <a class="navbar-brand" href="#"></a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
+      @if( str_replace('_','-',app()->getLocale()) == 'ar' )
+        <ul class="nav navbar-nav navbar-left">
+      @else
         <ul class="nav navbar-nav navbar-right">
+      @endif
           <li class="dropdown">
             <a class="dropdown-toggle NotifDrop" data-toggle="dropdown" data-type='Provider' href="#"><span class=" 	glyphicon glyphicon-bell"></span></a>
             <ul class="dropdown-menu">

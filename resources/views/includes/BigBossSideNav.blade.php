@@ -8,21 +8,21 @@
 
     <ul class="list-unstyled components">
         <li class="active">
-        <a href="#CategorySub" data-toggle="collapse" aria-expanded="false">Categories</a>
+        <a href="#CategorySub" data-toggle="collapse" aria-expanded="false">{{ trans('lang.Categories') }}</a>
             <ul class="collapse list-unstyled" id="CategorySub">
-             <li><a href="{{ route('CategoryList') }}">Category List</a></li>
-             <li><a href="#"  data-toggle="modal" data-target="#AddCategory">Add Category</a></li> 
+             <li><a href="{{ route('CategoryList') }}">{{ trans('lang.CategoryList') }}</a></li>
+             <li><a href="#"  data-toggle="modal" data-target="#AddCategory">{{ trans('lang.AddCategory') }}</a></li> 
             </ul>
         </li>
         <li>  
-        <a href="#ProviderList" data-toggle="collapse" aria-expanded="false">Providers</a>
+        <a href="#ProviderList" data-toggle="collapse" aria-expanded="false">{{ trans('lang.Providers') }}</a>
         <ul class="collapse list-unstyled" id="ProviderList">
-            <li><a href="{{ route('ProviderList') }}">Providers List</a></li>
-            <li><a href="#" data-toggle="modal" data-target="#AddProvider">Add Provider</a></li> 
+            <li><a href="{{ route('ProviderList') }}">{{ trans('lang.ProviderList') }}</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#AddProvider">{{ trans('lang.AddProvider') }}</a></li> 
            </ul>
         </li>
         <li>  
-         <a href="#Ads" >Advertisment</a>
+         <a href="#Ads" >{{ trans('lang.Advertisment') }}</a>
         </li>
     </ul>
   </nav>

@@ -2,14 +2,34 @@
 <Script>
     
 //Toast Start
+var lang = "{{str_replace('_','-',app()->getLocale()) }}";
 
-
-toastr.options = {
+ if(lang ==="en"){
+    toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "8000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+ }
+ else{
+  toastr.options = {
   "closeButton": true,
   "debug": false,
   "newestOnTop": true,
   "progressBar": false,
-  "positionClass": "toast-top-right",
+  "positionClass": "toast-top-left",
   "preventDuplicates": false,
   "onclick": null,
   "showDuration": "300",
@@ -21,6 +41,9 @@ toastr.options = {
   "showMethod": "fadeIn",
   "hideMethod": "fadeOut"
 }
+ }
+
+
 
 var Timer=4000;
 

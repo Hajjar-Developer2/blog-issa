@@ -27,7 +27,18 @@ Route::post('CustPassRestReq',['uses'=>'ApiController@CustPassRestReq']);
 
 Route::post('CustPassRestExec',['uses'=>'ApiController@CustRestPassExec']);
 
-Route::post('/CustLogIn',['uses'=>"ApiController@CustLogIn"]);
+Route::post('CustLogIn',['uses'=>"ApiController@CustLogIn"]);
+
+Route::get('ServiceAll/{limit}/{SortKey}/{SortType}',['uses'=>"ApiController@ServiceAll"]);
+
+Route::get('ServiceOne/{ServiceId}',['uses'=>'ApiController@ServiceOne']);
+
+Route::get('CategoryAll/{limit}/{SortKey}/{SortType}',['uses'=>'ApiController@CategoryAll']);
+
+Route::get('CategoryOne/{CategoryId}',['uses'=>'ApiController@CategoryOne']);
+
+
+
 
 Route::group(['middleware' => [ 'auth:api','jwt.auth']], function () {
     
@@ -42,5 +53,9 @@ Route::group(['middleware' => [ 'auth:api','jwt.auth']], function () {
     Route::post('UploadFile',['uses'=>"ApiController@UploadFile"]);
 
     Route::post('SaveMessage',['uses'=>'ApiController@SaveMessage']);
+
+    Route::get('OrderAll/{limit}/{SortKey}/{SortType}',['uses'=>'ApiController@OrderAll']);
+
+    Route::get('OrderOne/{OrderId}',['uses'=>'ApiController@OrderOne']);
 
 });

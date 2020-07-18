@@ -19,6 +19,7 @@ use App\ServiceUpgrades;
 use App\MayarNotif;
 use App\MayarMessage;
 use App\MayarFile;
+use App\MayarCategory;
 
 class ApiController extends Controller
 {
@@ -504,6 +505,172 @@ class ApiController extends Controller
             return response()->json(['err',['err'=>'0','message'=>'RestPassNotMatchErr']],403);
         }
     }
+
+
+    public function ServiceAll($limit,$SortKey,$SortType)
+    {
+        
+        //
+        //Check Limit Value
+        if($limit ==='null'){
+            $limit=null;
+        }
+
+        //Check OrderBy Inputs
+        if($SortKey !="null"){
+            $getService=MayarService::limit($limit)->orderBy($SortKey, $SortType)->get();
+        }
+        else{
+            $getService=MayarService::limit($limit)->get();
+        }
+
+        $getService->load('Category');
+        $getService->load('ServiceProvider');
+        return response()->json(['Services'=>$getService],200);
+
+    }
+
+    public function ServiceOne($ServiceId)
+    {
+        
+        //Check Param
+
+        if(is_numeric($ServiceId)){
+            
+
+            //get Service
+            $getService=MayarService::find($ServiceId);
+            if(!empty($getService)){
+
+                $getService->load('Category');
+                $getService->load('ServiceProvider');
+                $getService->load('Upgrades');
+                $getService->load('Comments');
+        
+                return response()->json(['Service'=>$getService],200);
+
+            }
+            else{
+                return response()->json(['err',['err'=>'0','message'=>'SWErr']], 500);
+            }
+
+        }
+        else{
+                return response()->json(['err',['err'=>'0','message'=>'ValidationErr']],400);
+        }
+    }
+
+    public function CategoryAll($limit,$SortKey,$SortType)
+    {
+
+        //Check Limit Value
+        if($limit ==='null'){
+            $limit=null;
+        }
+
+        //Check OrderBy Inputs
+        if($SortKey !="null"){
+            $getCategory=MayarCategory::limit($limit)->orderBy($SortKey, $SortType)->get();
+        }
+        else{
+            $getCategory=MayarCategory::limit($limit)->get();
+        }
+
+        return response()->json(['Categories'=>$getCategory],200);
+    }
+
+
+    public function CategoryOne($CategoryId)
+    {
+        
+        //Check Param
+        if(is_numeric($CategoryId)){
+    
+            //get Service
+            $getCategory=MayarCategory::find($CategoryId);
+            if(!empty($getCategory)){
+        
+                return response()->json(['Service'=>$getCategory],200);
+
+            }
+            else{
+                return response()->json(['err',['err'=>'0','message'=>'SWErr']], 500);
+            }
+
+        }
+        else{
+                return response()->json(['err',['err'=>'0','message'=>'ValidationErr']],400);
+        }
+    }
+
+
+    public function OrderAll($limit,$SortKey,$SortType)
+    {
+       
+
+        //Check Limit Value
+        if($limit ==='null'){
+            $limit=null;
+        }
+
+        //get Customer ID
+        $getCustomer=Auth::guard('api')->user();
+
+
+        //Check OrderBy Inputs
+        if($SortKey !="null"){
+            $getOrder=MayarOrder::where('OrderCustomerId',$getCustomer['id'])->limit($limit)->orderBy($SortKey, $SortType)->get();
+        }
+        else{
+            $getOrder=MayarOrder::where('OrderCustomerId',$getCustomer['id'])->limit($limit)->get();
+        }
+
+        //trasform Service Upgrades To Array
+        $transformUpgrades= $getOrder->transform(function($OrderUpgradesId){ 
+            $OrderUpgradesId->OrderUpgradesId=unserialize($OrderUpgradesId->OrderUpgradesId);
+            return $OrderUpgradesId;  
+            });
+
+        $getOrder->load('Service');
+        $getOrder->load('Customer');
+        return response()->json(['Orders'=>$getOrder],200);
+    }
+
+    public function OrderOne($OrderId)
+    {
+        //Check Param
+        if(is_numeric($OrderId)){
+
+
+            // //get Customer ID
+            $getCustomer=Auth::guard('api')->user();
+
+            //get Order
+            $getOrder=MayarOrder::where([['id',$OrderId],['OrderCustomerId',$getCustomer['id']]])->first();
+            if(!empty($getOrder)){
+
+            //trasform Service Upgrades To Array
+            $transformUpgrades=transform($getOrder,function($OrderUpgradesId){ 
+                $OrderUpgradesId->OrderUpgradesId=unserialize($OrderUpgradesId->OrderUpgradesId);
+                return $OrderUpgradesId;  
+                });
+
+            $getOrder->load('Service');
+            $getOrder->load('Customer');
+        
+                return response()->json(['Order'=>$getOrder],200);
+
+            }
+            else{
+                return response()->json(['err',['err'=>'0','message'=>'SWErr']], 500);
+            }
+
+        }
+        else{
+                return response()->json(['err',['err'=>'0','message'=>'ValidationErr']],400);
+        }
+    }
+
 
 
 }

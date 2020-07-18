@@ -10,11 +10,26 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller as BaseController;
 use App\MayarNotif;
 use App\MayarMessage;
+use App;
 use Auth;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function MainGet($lang)
+    {
+        if( $lang =='ar' or $lang =='en' or $lang =='tr')
+        {
+            App::setLocale($lang);
+            session()->put('locale',$lang);
+            return 'hello Its Working Your Lang Is '.session()->get('locale');
+        }
+        else
+        {
+          return redirect()->route('main',["lang"=>'en']);
+        }
+    }
  
     public function ChangeNotif(Request $request)
     {

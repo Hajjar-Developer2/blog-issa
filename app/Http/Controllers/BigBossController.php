@@ -17,6 +17,8 @@ class BigBossController extends Controller
             return redirect()->route('DashboardGet');
         }
         return view('BigBoss.LogIn');
+
+     
     }
 
 
@@ -25,6 +27,7 @@ class BigBossController extends Controller
 
         if(!empty($request->session()->get('authenticated'))){
             return redirect()->route('DashboardGet');
+           
         }
         //validate inputs
         $validate=$request->validate([
@@ -32,11 +35,12 @@ class BigBossController extends Controller
             'BigPassI'=>"required"
         ]);
 
-        //Chek BigBoss Creds
-        if ($validate['BigUserI'] === env('BIGBOSSU') && $validate['BigPassI'] === env('BIGBOSSP')) {
+        //Check BigBoss Creds
+        if ($validate['BigUserI'] === config('getEnv.BigBossUser') && $validate['BigPassI'] === config('getEnv.BigBossPass')) {
             $request->session()->put('authenticated', time());
             return redirect()->route("DashboardGet");
         }
+
         return "Somthing Worng";
     }
 

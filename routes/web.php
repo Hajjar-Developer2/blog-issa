@@ -18,13 +18,11 @@ use App\Mail\CustActivateMail;
 |
 */
 
-
-
 Route::get('/',function(){
+  return redirect()->route('main',["lang"=>'en']);
+});
 
-  return "Its Working";
-
-})->name('main');
+Route::get('/{lang}',['uses'=>"controller@MainGet"])->name('main');
 
 
 
@@ -44,9 +42,9 @@ Route::post('getMessages',['uses'=>"Controller@getMessages",'as'=>'getMessages']
 Route::group(['prefix'=>'BigBoss'], function () {
 
 
-    Route::get('/',['uses'=>'BigBossController@BigBossLoginGet','as'=>'BigBossLoginGet']);
+    Route::get('/Login',['uses'=>'BigBossController@BigBossLoginGet','as'=>'BigBossLoginGet']);
 
-    Route::post('/',['uses'=>"BigBossController@BigBossLoginPost",'as'=>"BigBossLogInPost"]);
+    Route::post('/Login',['uses'=>"BigBossController@BigBossLoginPost",'as'=>"BigBossLogInPost"]);
 
     Route::group(['middleware' => ['web', 'BigBossAuth']], function () {
 
@@ -81,9 +79,9 @@ Route::group(['prefix'=>'Provider'], function () {
 
 
 
-    Route::get('/',['uses'=>'ProviderController@ProviderLoginGet','as'=>'ProviderLoginGet']);
+    Route::get('/Login',['uses'=>'ProviderController@ProviderLoginGet','as'=>'ProviderLoginGet']);
 
-    Route::post('/',['uses'=>'ProviderController@ProviderLoginPost',"as"=>"ProviderLoginPost"]);
+    Route::post('/Login',['uses'=>'ProviderController@ProviderLoginPost',"as"=>"ProviderLoginPost"]);
 
 
     Route::group(['middleware'=>['web','auth:ServiceProvider']], function () {
