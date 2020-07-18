@@ -22,7 +22,7 @@ Route::get('/',function(){
   return redirect()->route('main',["lang"=>'en']);
 });
 
-Route::get('/{lang}',['uses'=>"controller@MainGet"])->name('main');
+Route::get('/{lang}',['uses'=>"Controller@MainGet"])->name('main');
 
 
 
