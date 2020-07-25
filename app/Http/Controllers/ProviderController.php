@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Auth;
 
 use App\MayarCategory;
 use App\MayarService;
 use App\MayarProvider;
 use App\MayarOrder;
+use App\ServiceUpgrades;
 
 class ProviderController extends Controller
 {
@@ -85,7 +87,8 @@ class ProviderController extends Controller
         $getServices->load('Upgrades');
         $getServices->load('Comments.Customer');
 
-        return $getServices;
+        return View('Providers.ServiceList',['Services'=>$getServices]);
+
     }
 
 
@@ -141,6 +144,267 @@ class ProviderController extends Controller
     }
 
 
+    public function DeleteService (Request $request)
+    {
+        
+        //Validate inputs 
+        $validate=$request->validate([
+            'DelSerIdI'=>'required',
+            'ProviderPassI'=>'required'
+        ]);
+
+        //Check Provider 
+        $Provider=Auth::guard('ServiceProvider')->user();
+
+        if(Auth::guard('ServiceProvider')->attempt(
+            array(
+            'ProviderUserName'=>$Provider['ProviderUserName'],
+            'password'=>$validate['ProviderPassI']
+            ))){
+               
+                //get Service
+                $getService=MayarService::find($validate['DelSerIdI']);
+                if(!empty($getService)){
+
+
+                //Delete Servcice Upgrades
+                $getUpgrades=ServiceUpgrades::where('ServiceId',$getService['id'])->get();
+              
+                foreach ($getUpgrades as $Upgrade) {
+
+                    //Find Upgrade And Delete It
+                    $getUpgrade=ServiceUpgrades::find($Upgrade['id']);
+                    $getUpgrade->delete();
+                    
+                }
+
+                //Decrease Category Service Num
+                $getCat=MayarCategory::find($getService['ServiceCatId']);
+                if(!empty($getCat)){
+                    
+                    //Decrese Service Num
+                    $getCat->update([
+                        'CategoryServiceNum'=>$getCat['CategoryServiceNum']-1,
+                    ]);
+                }
+
+
+                //Delete Service
+                $getService->delete();
+
+                    return redirect()->route('ProviderDashboard')->with('err',['err'=>'1','message'=>'Service Succesfully Deleted']);
+
+                }
+
+            }
+
+
+    }
+
+
+
+
+
+    public function GetUpgrades(Request $request)
+    {
+        
+        
+        //validate input
+        if(empty($request->input('ServiceIdI'))){
+            return response()->json(['err',['err'=>'0','message'=>'ValidationErr']],400);
+        }
+        
+
+        //Check Service And get upgrades
+        $getService=MayarService::find($request->input('ServiceIdI'));
+
+        if(!empty($getService)){
+            //get Upgrades
+            $getupgrades=ServiceUpgrades::where('ServiceId',$request->input('ServiceIdI'))->get();
+            return response()->json(['err',['err'=>'1','Upgrades'=>$getupgrades]],200);
+        }
+        else{
+            return response()->json(['err',['err'=>'0','message'=>'Serevice Not Found']], 400);
+        }
+
+    }
+
+
+    public function SaveUpgrade(Request $request)
+    {
+        
+        //validate Inputs
+        $validate = Validator::make(request()->all(), [
+            'SerUpTitleI'=>'required',
+            'SerUpPriceI'=>'required|integer',
+            'SerUpDescI'=>"required",
+            'ServiceIdI'=>'required'
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json(['err',['err'=>'0','message'=>'ValidationErr']],400);
+    
+        }
+
+        //Check Service And Save Upgrade
+        $getService=MayarService::find($request->input('ServiceIdI'));
+
+        if(!empty($getService)){
+
+            //Save Upgrade
+  
+            $SaveUpgrade= new ServiceUpgrades([
+                'UpgradeTitle'=>$request->input('SerUpTitleI'),
+                'UpgradeDesc'=>$request->input('SerUpDescI'),
+                'UpgradePrice'=>$request->input('SerUpPriceI'),
+                'ServiceId'=>$request->input('ServiceIdI')
+            ]);
+
+            $SaveUpgrade->save();
+
+            return response()->json(['err',['err'=>'1','message'=>'Upgrade Saved']], 200);
+        }
+        else{
+            return response()->json(['err',['err'=>'0','message'=>'Serevice Not Found']], 400);
+        }
+    }
+
+
+    public function ChangeStatusSer(Request $request)
+    {
+        //validate inputs
+        $validate = Validator::make(request()->all(), [
+            'ServiecIdI'=>'required',
+            'SerStausI'=>'required',
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json(['err',['err'=>'0','message'=>'ValidationErr']],400);
+    
+        }
+
+
+
+        //Check service 
+        $getService=MayarService::find($request->input('ServiecIdI'));
+        if(empty($getService)){
+
+            return response(400);
+        }
+
+        //Update Service Status
+
+        if($request->input('SerStausI') == 0){
+
+            $status=1;
+        }
+        elseif($request->input('SerStausI') == 1){
+
+            $status=0;
+        }
+
+
+        $getService->update([
+            'ServiceStatus'=>$status
+        ]);
+
+        return response(200);
+
+
+    }
+
+
+    public function DelUpgrade(Request $request)
+    {
+        
+        //vaildate input
+        if(empty($request->input('UpgradeIdI'))){
+
+          return response('ValidateionErr',400);
+
+        }
+
+        //Check Upgrade And Delete It
+        $getUpgrade=ServiceUpgrades::find($request->input('UpgradeIdI'));
+
+        if(empty($getUpgrade)){
+
+            return response(400);
+        }
+        else{
+
+            //Delete Upgrade
+            $getUpgrade->delete();
+
+            return response(200);
+
+        }
+        
+    }
+
+
+
+
+    public function UpdateService(Request $request)
+    {
+        
+        //Validate inputs
+        $validate =$request->validate([
+            'ServiceNameUI'=>'required',
+            'ServiceThumbnailUI'=>'required',
+            'ServicePriceUI'=>"required",
+            'ServiceCatUI'=>'required',
+            'ServiceDescUI'=>'required',
+            'ServiceIdUI'=>'required',
+        ]) ;
+
+        //Check Service Update It
+        $getService=MayarService::find($validate['ServiceIdUI']);
+
+        if(empty($getService))
+        {
+            return redirect()->route('ServiceListGet')->with('err',['err'=>'0','Sonthing Wrong']);
+        }
+        else
+        {
+
+            //get Old Category And Decrase Service Num On Old Category
+            $getOldCat=MayarCategory::find($getService['ServiceCatId']);
+            if(!empty($getOldCat)){
+                
+                //Decrese Service Num
+                $getOldCat->update([
+                    'CategoryServiceNum'=>$getOldCat['CategoryServiceNum']-1,
+                ]);
+            }
+
+
+            //get Old Category And Increase Service Num On Old Category 
+            $getNewCat=MayarCategory::find($validate['ServiceCatUI']);
+            if(!empty($getNewCat)){
+
+
+                //Decrese Service Num
+                $getNewCat->update([
+                    'CategoryServiceNum'=>$getNewCat['CategoryServiceNum']+1,
+                ]);
+            }
+
+
+           //Update Service
+           $getService->update([
+            'ServiceName'=>$validate['ServiceNameUI'],
+            'ServiceThumb'=>$validate['ServiceThumbnailUI'],
+            'ServicePrice'=>$validate['ServicePriceUI'],
+            'ServiceCatId'=>$validate['ServiceCatUI'],
+            'ServiceDesc'=>$validate['ServiceDescUI'],
+           ]); 
+
+           return redirect()->route('ServiceListGet')->with('err',['err'=>'1','message'=>'Service Successfully updated']);
+        }
+    }
+
+
     public function OrderListGet()
     {
         //get Provider 
@@ -159,29 +423,7 @@ class ProviderController extends Controller
             return $Upgrade;
           });
 
-
-          //get Total Price
-          $PriceArr=array();
-          if(!empty($transformUpgrades[0]['OrderUpgradesId'])){
-            foreach ($transformUpgrades[0]['OrderUpgradesId'] as $Upgrades ) {
-                array_push($PriceArr,$Upgrades['UpgradePrice']); 
-              }
-              $UpgradesPrice=array_sum($PriceArr);
-          }
-          else{
-              $UpgradesPrice='';
-          }
-          if(!empty($transformUpgrades[0])){
-            $ServicePrice=$transformUpgrades[0]['Service']['ServicePrice'];
-            $totalPrice=$ServicePrice+$UpgradesPrice;
-          }
-          else{
-              $totalPrice=0;
-          }
-
-
-
-        return view('Providers.OrdersList',['Orders'=>$transformUpgrades,'totalPrice'=>$totalPrice]);
+        return view('Providers.OrdersList',['Orders'=>$transformUpgrades]);
 
     }
 }

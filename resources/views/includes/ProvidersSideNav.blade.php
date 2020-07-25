@@ -10,7 +10,7 @@
           <li class="active">
           <a href="#ServiceSub" data-toggle="collapse" aria-expanded="false">{{ trans('lang.Services') }}</a>
               <ul class="collapse list-unstyled" id="ServiceSub">
-               <li><a href="#">{{ trans('lang.ServiceList') }}</a></li>
+               <li><a href="{{ route('ServiceListGet') }}">{{ trans('lang.ServiceList') }}</a></li>
                <li><a href="#" class="AddService" data-toggle="modal" data-target="#AddService">{{ trans('lang.AddService') }}</a></li> 
               </ul>
           </li>

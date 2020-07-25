@@ -31,10 +31,10 @@ class ApiController extends Controller
         $validate = Validator::make(request()->all(), [
             'CustFirstNameI'=>'required',
             'CustLastNameI'=>'required',
-            'CustUserNameI'=>"required",
-            'CustPassI'=>'required',
-            'CustPass2I'=>'required',
-            'CustMailI'=>'required',
+            'CustUserNameI'=>"required|min:6",
+            'CustPassI'=>'required|min:6',
+            'CustPass2I'=>'required|min:6',
+            'CustMailI'=>'required|email',
             'CustCountryI'=>'required',
         ]);
 
@@ -227,7 +227,12 @@ class ApiController extends Controller
         $ServiceUpgradesArr=array();
         $ServiceUpgradesPriceArr=array();
         if($request->input('ServiceUpgradesI') !='null'){
-            foreach (['1','2'] as $ServiceUpgrade) {
+
+            //Explode Value
+            $UpgradesArrExpl=explode(',',$request->input('ServiceUpgradesI'));
+    
+          
+            foreach ($UpgradesArrExpl as $ServiceUpgrade) {
                 $getUpgrade=ServiceUpgrades::where([['id','=',$ServiceUpgrade],['ServiceId','=',$request->input('ServiceIdI')]])->get();
                 array_push($ServiceUpgradesArr,$getUpgrade[0]);
                 array_push($ServiceUpgradesPriceArr,$getUpgrade[0]['UpgradePrice']);
@@ -518,10 +523,10 @@ class ApiController extends Controller
 
         //Check OrderBy Inputs
         if($SortKey !="null"){
-            $getService=MayarService::limit($limit)->orderBy($SortKey, $SortType)->get();
+            $getService=MayarService::where('ServiceStatus','1')->limit($limit)->orderBy($SortKey, $SortType)->get();
         }
         else{
-            $getService=MayarService::limit($limit)->get();
+            $getService=MayarService::where('ServiceStatus','1')->limit($limit)->get();
         }
 
         $getService->load('Category');

@@ -90,9 +90,21 @@ Route::group(['prefix'=>'Provider'], function () {
 
       Route::post('getCatProAjax',['uses'=>'ProviderController@getCatProAjax','as'=>'getCatProAjax']);
 
-      Route::get('ServiceList',['uses'=>'ProviderController@ServiceListGet','ServiceListGet']);
+      Route::get('ServiceList',['uses'=>'ProviderController@ServiceListGet','as'=>'ServiceListGet']);
 
       Route::post('SaveService',['uses'=>'ProviderController@SaveService','as'=>'SaveService']);
+
+      Route::post('UpdateService',['uses'=>'ProviderController@UpdateService','as'=>'UpdateService']);
+
+      Route::post('DelService',['uses'=>'ProviderController@DeleteService','as'=>'DeleteService']);
+
+      Route::post('GetUpgrades',['uses'=>'ProviderController@GetUpgrades','as'=>'GetUpgrades']);
+
+      Route::post('SaveUpgrade',['uses'=>'ProviderController@SaveUpgrade','as'=>'SaveUpgrade']);
+
+      Route::post('ChangeStatusSer',['uses'=>'ProviderController@ChangeStatusSer','as'=>'ChangeStatusSer']);
+
+      Route::post('DelUpgrade',['uses'=>'ProviderController@DelUpgrade','as'=>'DelUpgrade']);
 
       Route::get('OrdersList',['uses'=>'ProviderController@OrderListGet','as'=>'OrderListGet']);
 

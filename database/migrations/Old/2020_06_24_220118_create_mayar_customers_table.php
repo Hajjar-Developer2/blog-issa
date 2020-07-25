@@ -13,6 +13,8 @@ class CreateMayarCustomersTable extends Migration
      */
     public function up()
     {
+
+
         Schema::create('mayar_customers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -25,6 +27,12 @@ class CreateMayarCustomersTable extends Migration
             $table->String("CustAddress")->nullable();
             $table->String("CustStatus");
             $table->String("CustActivationToken");
+            $table->String('CustPassRestToken');
+            $table->String('CustPassRestExpire');
+            // $table->date('CustBirthDay')->nullable();
+            // $table->longText('CustBio')->nullable();
+            // $table->string('CustPic')->nullable();
+
 
 
         });

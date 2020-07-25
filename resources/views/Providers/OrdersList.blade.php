@@ -60,7 +60,7 @@
                                     <tr>
                                         <th></th>
                                         <th></th>
-                                        <th>{{ $totalPrice}}</th>
+                                        <th>{{ $Order['OrderPrice']}}</th>
                                     </tr>
                                   </tfoot>
                             </table>

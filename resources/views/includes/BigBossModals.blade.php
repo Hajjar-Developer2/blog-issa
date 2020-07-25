@@ -74,7 +74,17 @@
         <h4 class="modal-title">{{ trans('lang.UpdateCategoryModaltitle') }}</h4>
       </div>
       <div class="modal-body">
-        <form method="post" action="{{ route('UpdateCategory') }}" class="form-horizontal">
+
+        <div class="sk-chase UpdateCategorySpinner">
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+        </div>
+
+        <form method="post" action="{{ route('UpdateCategory') }}" class="form-horizontal UpdateCategoryForm">
 
           <!-- Category Name Input -->
           <div class="form-group">
@@ -149,7 +159,6 @@
 <!--UpdateProvider Modal -->
 <div id="UpdateProvider" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -157,7 +166,18 @@
         <h4 class="modal-title">{{ trans('lang.UpdateProviderModalTitle') }}</h4>
       </div>
       <div class="modal-body">
-        <form method="post" action="{{ route('UpdateProvider') }}" class="form-horizontal">
+        <div class="sk-chase UpdateProviderSpinner">
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+        </div>
+
+
+
+        <form method="post" action="{{ route('UpdateProvider') }}" class="form-horizontal UpdateProviderForm">
 
           <!-- Provider Name Update Input -->
           <div class="form-group">

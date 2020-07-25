@@ -31,7 +31,7 @@ Route::post('CustLogIn',['uses'=>"ApiController@CustLogIn"]);
 
 Route::get('ServiceAll/{limit}/{SortKey}/{SortType}',['uses'=>"ApiController@ServiceAll"]);
 
-Route::get('ServiceOne/{ServiceId}',['uses'=>'ApiController@ServiceOne']);
+Route::get('ServiceOne/{ServiceId}',['uses'=>'ApiController@ServiceOne','as'=>'ServiceOne']);
 
 Route::get('CategoryAll/{limit}/{SortKey}/{SortType}',['uses'=>'ApiController@CategoryAll']);
 
