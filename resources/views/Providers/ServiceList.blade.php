@@ -23,7 +23,7 @@
                             <button class='btn btn-danger DelSerBtn' data-toggle="modal" data-target="#DelService" data-Serviceid="{{$Service['id']}}" >Delete</button>
                             <button class="btn btn-info">More</button>
                         </div>
-                        <img src="http://127.0.0.1/images/1.jpg" class="img-responsive">
+                        <img src="{{$Service['ServiceThumb']}}" class="img-responsive">
                         <h4>{{$Service['ServiceName']}}</h4>
                     </div>
                 </div>
