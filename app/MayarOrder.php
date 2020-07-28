@@ -8,7 +8,7 @@ class MayarOrder extends Model
 {
     
     // 	 	 	 
-    protected $fillable=['OrderServiceId','OrderUpgradesId','OrderCustomerId','OrderStatus','OrderPrice','OrderTargetId','OrderFolder'];
+    protected $fillable=['OrderServiceId','OrderUpgradesId','OrderCustomerId','OrderStatus','OrderPrice','OrderTargetId','OrderFolder','OrderQr'];
 
     //Relations
 

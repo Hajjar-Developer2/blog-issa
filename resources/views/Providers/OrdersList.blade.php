@@ -11,7 +11,13 @@
             
         @endif
         @foreach ($Orders as $Order)
-         <div class="panel panel-default">
+        @if ($Order['OrderStatus'] == 2)
+         <div class="panel panel-danger">
+        @endif
+        @if ($Order['OrderStatus'] == 1)
+         <div class="panel panel-success">
+        @endif
+         
             <div class="panel-heading">
               <h4 class="panel-title">
                   <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{$Order['id']}}">Order : {{$Order['id']}}</a>
@@ -21,6 +27,8 @@
               <div class="panel-body">
                   <div class="row">
                       <div class="col-sm-12">
+                        <img src="data:image/svg+xml;base64,{{$Order['OrderQr']}}" class='center-block'>
+                        <br>
                             <h3>Orderd Service: <span><a href="#">{{ $Order['Service']['ServiceName'] }} </a></span></h3>
                             <h3>Customer: <span><a href='#'> {{ $Order['Customer']['CustUserName'] }} </a></span></h3>
                             <h3>Desception:</h3>
@@ -64,12 +72,27 @@
                                     </tr>
                                   </tfoot>
                             </table>
-  
-  
                       </div>
                   </div>
               </div>
-              <div class="panel-footer">Order Footer<div class="pull-right"><button class="btn btn-primary">Deliver</button></div></div>
+              <div class="panel-footer">
+                  
+                <form action="{{route('OrderDeliver')}}" method="post" style="display: inline-block">
+                    <input type="hidden" name="OrderIdI" value='{{ $Order['id']}}'>  
+                    {{ csrf_field() }}
+                    <input type="submit" value="Deliver" class="btn btn-success">
+                </form>
+                
+                <form action="{{route('OrderCancel')}}" method="post" style="display: inline-block">
+                    <input type="hidden" name="OrderIdI" value='{{ $Order['id']}}'>  
+                    {{ csrf_field() }}
+                    <input type="submit" value="Cancel" class="btn btn-danger">
+                </form>
+
+                <button type="button" class="btn btn-info UploadFileBtn " data-toggle="modal" data-orderid='{{ $Order['id']}}'  data-target="#FileUplaodModal">Upload File</button>
+                <button class="btn btn-primary SendMsgBtn"  data-toggle="modal" data-orderid='{{ $Order['id']}}' data-customerid='{{$Order["Customer"]["id"]}}' data-target="#SendMessage">Send Message </button>
+        
+             </div>
             </div>
           </div>
         @endforeach

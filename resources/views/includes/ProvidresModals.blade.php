@@ -200,3 +200,104 @@
 
 
 <!-- End Delete Service Modal -->
+
+
+<!-- File Upload Modal -->
+
+<!-- Modal -->
+<div id="FileUplaodModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <main>
+          <section>
+              <div id="dropzone dropzoneOrderUp">
+                  <form  class="dropzone dz-clickable" id="dropzoneOrderUp" enctype="multipart/form-data" style="border: 2px #004fff dashed;background: gainsboro;">
+                      {{-- <span class='center-block	glyphicon glyphicon-download-alt'></span> --}}
+                      <div class="dz-message">Drop files here or click to upload.
+                      </div>
+                      <input type="hidden" name="OrderIdUplI" >
+                  </form>
+              </div>
+          </section>
+      </main>
+        {{-- <form action="{{route('OrderUploadFile')}}" class="dropzone"id="my-awesome-dropzone">
+
+          <input type="file" name="file" />
+
+        </form> --}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- End File Upload Modal -->
+
+
+
+<!-- Start Send Message Modal -->
+
+<div id="SendMessage" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Send Message Modal</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{{route('OrderSendMessage')}}" method="post" class="form-horizontal">
+          <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-1">
+              <input type="text" name="MessageTitleI" class="form-control" placeholder="Message Title Input" >
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-1">
+              <select name="MessageTargetI" class='form-control' >
+                <option value="Customer">Customer :</option>
+                <option value="Admins">Administrators</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group"> 
+           <div class="col-sm-10 col-sm-offset-1">
+            <select name="MessageSubjectI" class="form-control" >
+              <option value="Customer Order">Customer Order</option>
+              <option value="Technical problem">Technical problem</option>
+              <option value="Additional information to order">Additional information to order</option>
+            </select>
+           </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-1">
+              <textarea name="MessageBodyI" placeholder="Message Body Input" rows="10" class="form-control"></textarea>
+              <input type="hidden" name="MessageCustomerIdI">
+              <input type="hidden" name="MessageOrderIdI">
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        {{ csrf_field() }}
+        <input type="submit" value="Send" class="btn btn-success"> 
+      </form>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- End Send Message Modal -->

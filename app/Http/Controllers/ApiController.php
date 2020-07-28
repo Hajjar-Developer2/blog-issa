@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use QrCode;
 use Carbon\Carbon;
 
 use App\Mail\CustActivateMail;
@@ -250,6 +251,12 @@ class ApiController extends Controller
         $ServicePrice=$CheckService[0]['ServicePrice'];
         $TotalPrice=$UpgradesArr+$ServicePrice;
 
+
+        //generate Random Qr Code 
+         $Qr= QrCode::generate(md5(rand(1, 10) . microtime()));
+         $encodeQr= base64_encode($Qr);
+
+
         //Save Order
         $SaveOrder=new MayarOrder([
             'OrderServiceId'=>$request->input('ServiceIdI'),
@@ -257,6 +264,7 @@ class ApiController extends Controller
             'OrderStatus'=>0, //Isnt Completed Status
             'OrderUpgradesId'=>$SerializedUp,
             'OrderPrice'=>$TotalPrice,
+            'OrderQr'=>$encodeQr,
             'OrderTargetId'=>$CheckService[0]['ServiceProvider']['id']
         ]);
        $SaveOrder->save();
@@ -531,7 +539,7 @@ class ApiController extends Controller
 
         $getService->load('Category');
         $getService->load('ServiceProvider');
-        return response()->json(['Services'=>$getService],200);
+        return response()->json($getService,200);
 
     }
 
@@ -552,7 +560,7 @@ class ApiController extends Controller
                 $getService->load('Upgrades');
                 $getService->load('Comments');
         
-                return response()->json(['Service'=>$getService],200);
+                return response()->json($getService,200);
 
             }
             else{
@@ -581,7 +589,7 @@ class ApiController extends Controller
             $getCategory=MayarCategory::limit($limit)->get();
         }
 
-        return response()->json(['Categories'=>$getCategory],200);
+        return response()->json($getCategory,200);
     }
 
 
@@ -595,7 +603,7 @@ class ApiController extends Controller
             $getCategory=MayarCategory::find($CategoryId);
             if(!empty($getCategory)){
         
-                return response()->json(['Service'=>$getCategory],200);
+                return response()->json($getCategory,200);
 
             }
             else{
@@ -638,7 +646,7 @@ class ApiController extends Controller
 
         $getOrder->load('Service');
         $getOrder->load('Customer');
-        return response()->json(['Orders'=>$getOrder],200);
+        return response()->json($getOrder,200);
     }
 
     public function OrderOne($OrderId)
@@ -663,7 +671,7 @@ class ApiController extends Controller
             $getOrder->load('Service');
             $getOrder->load('Customer');
         
-                return response()->json(['Order'=>$getOrder],200);
+                return response()->json($getOrder,200);
 
             }
             else{

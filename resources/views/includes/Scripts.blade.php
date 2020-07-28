@@ -71,6 +71,10 @@ $.ajax({
 //Toast End
 
 
+
+
+
+
 //Change All Notificateion Status  When Click On Dropdown 
 
 $(document).on('click','.NotifDrop',function(){
@@ -540,6 +544,55 @@ $(document).on('click','.StatusBtn',function(){
 
 
 
+
+//Provider Uplaod File
+
+   //Set Value For OrderIdI On Upload file Form
+
+   $('.UploadFileBtn').click(function(){
+    var OrderId=$(this).data('orderid');
+
+    $('input[name="OrderIdUplI"]').val(OrderId)
+
+   console.log()
+
+   })
+ 
+
+    //End Set Value For OrderIdI On Upload file Form
+
+$("#dropzoneOrderUp").dropzone({
+    url: "{{route('OrderUploadFile')}}",
+    addRemoveLinks : true,
+    maxFilesize: 12,
+    dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+    dictResponseError: 'Error uploading file!',
+    headers: {
+        'X-CSRF-TOKEN':"{{ csrf_token() }}"
+    }
+});
+
+//End Provider Uplaod File
+
+
+
+
+//Send Message Set CustomerId input value
+
+$('.SendMsgBtn').click(function(){
+var CustomerId=$(this).data('customerid');
+var OrderId=$(this).data('orderid');
+
+$('input[name="MessageCustomerIdI"]').val(CustomerId);
+$('input[name="MessageOrderIdI"]').val(OrderId);
+
+
+})
+
+
+
+
+//End Send Message Set CustomerId input value
 
 
 

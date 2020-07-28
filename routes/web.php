@@ -108,6 +108,14 @@ Route::group(['prefix'=>'Provider'], function () {
 
       Route::get('OrdersList',['uses'=>'ProviderController@OrderListGet','as'=>'OrderListGet']);
 
+      Route::post('OrderDeliver',['uses'=>'ProviderController@OrderDeliver','as'=>'OrderDeliver']);
+
+      Route::post('OrderCancel',['uses'=>'ProviderController@OrderCancel','as'=>'OrderCancel']);
+
+      Route::post('OrderUploadFile',['uses'=>'ProviderController@OrderUploadFile','as'=>'OrderUploadFile']);
+
+      Route::post('OrderSendMessage',['uses'=>'ProviderController@OrderSendMessage','as'=>'OrderSendMessage']);
+
       Route::get('LogOut',['uses'=>'ProviderController@ProviderLogOut','as'=>'ProviderLogOut']);
         
     });

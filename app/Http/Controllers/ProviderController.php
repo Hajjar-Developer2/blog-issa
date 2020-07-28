@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Auth;
 
 use App\MayarCategory;
@@ -11,7 +12,9 @@ use App\MayarService;
 use App\MayarProvider;
 use App\MayarOrder;
 use App\ServiceUpgrades;
-
+use App\MayarFile;
+use App\MayarCustomer;
+use App\MayarMessage;
 class ProviderController extends Controller
 {
     //
@@ -426,4 +429,170 @@ class ProviderController extends Controller
         return view('Providers.OrdersList',['Orders'=>$transformUpgrades]);
 
     }
+
+    public function OrderCancel(Request $request)
+    {
+        //validate inputs
+        $validate=$request->validate([
+            'OrderIdI'=>'required'
+        ]);
+
+        //Check Order
+        $getOrder=MayarORder::find($validate['OrderIdI']);
+
+        if(!empty($getOrder)){
+
+            //Change Order Status TO 2 ->>>> Cancel
+            $getOrder->update([
+                'OrderStatus'=>2
+            ]);
+
+        //Send Message or Notif To Customer When CAncel Orderr
+
+            return redirect()->route('OrderListGet')->with('err',['err'=>'1','message'=>'Order Successfully updated']);
+
+        }
+        else{
+            return redirect()->route('OrderListGet')->with('err',['err'=>'0','message'=>'Somthing Wrong']);
+        }
+
+    }
+
+
+    public function OrderDeliver(Request $request)
+    {
+       
+        //validate Input
+        $validate=$request->validate([
+            'OrderIdI'=>'required'
+        ]);
+        
+        //Check Order
+        $getOrder=MayarORder::find($validate['OrderIdI']);
+
+        if(!empty($getOrder)){
+
+            //Change Order Status TO 1 ->>>> Deliver
+            $getOrder->update([
+                'OrderStatus'=>1
+            ]);
+
+        //Send Message or Notif To Customer When Deliver Orderr
+
+            return redirect()->route('OrderListGet')->with('err',['err'=>'1','message'=>'Order Successfully updated']);
+
+        }
+        else{
+            return redirect()->route('OrderListGet')->with('err',['err'=>'0','message'=>'Somthing Wrong']);
+        }
+
+    }
+
+
+    public function OrderUploadFile(Request $request)
+    {
+
+        //validate input
+        if(empty($request->input('OrderIdUplI'))){
+            return  response()->json('ValidationErr', 400);
+        }
+
+        
+
+        //Get And Check Order 
+        $getOrder=MayarOrder::find($request->input('OrderIdUplI'));
+        if(!empty($getOrder)){
+            
+            //get Order Folder 
+            $dir=$getOrder['OrderFolder'];
+
+            
+            //Check File Input
+            if($request->hasFile("file")){
+
+                //get Orgenal FIle Name 
+                $OFilename=$request->file('file')->getClientOriginalName();
+            
+            //Upload File To Cache Folder 
+                $filename=Storage::cloud()->put($dir,$request->file("file"),file_get_contents($request->file('file')));
+                
+                //get Uploaded File BaseName 
+                $recursive = false; // Get subdirectories also?
+                $contents = collect(Storage::cloud()->listContents($dir, $recursive));
+                $file = $contents
+                    ->where('type', '=', 'file')
+                    ->where('filename', '=', pathinfo($filename, PATHINFO_FILENAME))
+                    ->where('extension', '=', pathinfo($filename, PATHINFO_EXTENSION))
+                    ->first(); // there can be duplicate file names! 
+        
+                // Save File Info On DB
+                $SaveFile=new MayarFile([
+                    'BaseName'=>$file['basename'],
+                    'FileName'=>pathinfo($OFilename, PATHINFO_FILENAME),
+                    'StorageName'=>$file['filename'],
+                    'Ext'=>$file['extension'],
+                    'FileSource'=>1,
+                    'OrderId'=>$getOrder['id']
+                ]);
+                $SaveFile->save();
+                return  response(200);
+            }
+            else{
+                return  response(400);
+            }
+        }
+    }
+
+    public function OrderSendMessage(Request $request)
+    {
+      
+        //Validate inputs 
+        $validate=$request->validate([
+            'MessageTitleI'=>'required',
+            'MessageTargetI'=>'required',
+            'MessageSubjectI'=>'required',
+            'MessageBodyI'=>'required',
+            'MessageCustomerIdI'=>'required',
+            'MessageOrderIdI'=>'required'
+        ]);
+
+        //Check Customer 
+        $getCustomer=MayarCustomer::find($validate['MessageCustomerIdI']);
+
+        if(empty($getCustomer)){
+            return response(400);
+        }
+
+        //get Provider
+        $Provider=Auth::guard('ServiceProvider')->user();
+
+        //Set message target 
+        if($validate['MessageTargetI'] == 'Customer'){
+            $targetType=2; //Customer
+        }
+        elseif($validate['MessageTargetI'] == 'Admins'){
+            $targetType=0; //BigBoss
+        }
+
+        //Set message Source
+        $SourceType=1; //Provider
+   
+        //Save Message      
+        $SaveMsg=new MayarMessage([
+            'MessageTarget'=>$getCustomer['id'],
+            'MessageSource'=>$Provider['id'],
+            'MessageValue'=>$validate['MessageBodyI'],
+            'MessageStatus'=>0,
+            'MessageOrderId'=>$validate['MessageOrderIdI'],
+            'MessageTargetType'=>$targetType,
+            'MessageSourceType'=>$SourceType
+        ]);
+        $SaveMsg->save();
+
+        return redirect()->route('OrderListGet')->with('err',['err'=>'1','message'=>'Message Successfully Sended']);
+
+    }
+
+
+
 }
